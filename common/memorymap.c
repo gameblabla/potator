@@ -121,6 +121,9 @@ uint8  memorymap_registers_read(uint32 Addr)
 ////////////////////////////////////////////////////////////////////////////////
 void memorymap_registers_write(uint32 Addr, uint8 Value)
 {
+#ifdef DEBUG
+	printf("Addr 0x%.2x, Value 0x%.2x\n", Addr, Value);
+#endif
 	memorymap_regs[Addr&0x1fff] = Value;
 
 	switch (Addr&0x1fff)
@@ -169,8 +172,7 @@ void memorymap_registers_write(uint32 Addr, uint8 Value)
 #ifdef GP2X
 		if(currentConfig.enable_sound) sound_audio_dma(Addr&0x07, Value); break;
 #else
-		/*svision_sounddma_w(Addr&0x07, Value); break;*/
-		//ound_audio_dma(Addr&0x07, Value); break;
+		svision_sounddma_w(Addr&0x07, Value); break;
 #endif
 		break;
 	}
